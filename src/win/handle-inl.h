@@ -75,13 +75,14 @@
 
 #define uv__handle_close(handle)                                        \
   do {                                                                  \
+    uv_close_cb close_cb = (handle)->close_cb;                          \
     QUEUE_REMOVE(&(handle)->handle_queue);                              \
     uv__active_handle_rm((uv_handle_t*) (handle));                      \
                                                                         \
     (handle)->flags |= UV_HANDLE_CLOSED;                                \
                                                                         \
-    if ((handle)->close_cb)                                             \
-      (handle)->close_cb((uv_handle_t*) (handle));                      \
+    if (close_cb)                                                       \
+      close_cb((uv_handle_t*) (handle));                                \
   } while (0)
 
 

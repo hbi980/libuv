@@ -645,6 +645,8 @@ static void conn_connect_done(uv_connect_t *req, int status) {
   conn *c;
 
   if (status == UV_ECANCELED) {
+    uv_strerror(status);
+    pr_err("%s,no:%d\n",uv_strerror(status),status);
     return;  /* Handle has been closed. */
   }
 
